@@ -9,5 +9,5 @@ A Cloudflare Worker is used to collect stories from HN on a scheduled basis.
 - [X] Add VS Code devcontainer
 - [X] Use create-react-app + copy code from prototype
 - [X] Add styling with Tailwind CSS
-- [ ] Host on Cloudflare Pages
+- [X] Host on Cloudflare Pages ([my-hackernews-reader.pages.dev/](https://my-hackernews-reader.pages.dev/))
 - [ ] Add Cloudflare Worker to collect stories on schedule

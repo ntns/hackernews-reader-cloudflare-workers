@@ -3,7 +3,7 @@ A custom HackerNews Reader to match my Workflow.
 
 A Cloudflare Worker is used to collect stories from HN on a scheduled basis.
 
-# Weekend project
+# Project Task list
 
 - [X] Basic prototype with CodeSandbox and rss2json
 - [X] Add VS Code devcontainer

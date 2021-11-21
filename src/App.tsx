@@ -81,8 +81,8 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         stories,
         dismissedStories: [
+          state.stories[selectedIndex],
           ...state.dismissedStories,
-          state.stories[selectedIndex]
         ],
         selectedIndex:
           stories.length > 0 && selectedIndex > stories.length - 1

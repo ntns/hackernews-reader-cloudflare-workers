@@ -6,7 +6,7 @@ A Cloudflare Worker is used to collect stories from HN on a scheduled basis.
 # Weekend project
 
 - [X] Basic prototype with CodeSandbox and rss2json
-- [ ] Add VS Code devcontainer
+- [X] Add VS Code devcontainer
 - [ ] Use create-react-app + copy code from prototype
 - [ ] Add styling with Tailwind CSS
 - [ ] Host on Cloudflare Pages

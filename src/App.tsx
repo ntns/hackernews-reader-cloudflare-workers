@@ -212,7 +212,7 @@ const App = () => {
     state.currentView === "stories" ? state.stories : state.dismissedStories;
 
   return (
-    <div className="flex justify-center">
+    <div className="px-2 flex justify-center">
       <div className=""> {/* Centered div */}
         <div className="p-2 text-center text-blue-800 bg-green-200">
           Use keyboard to interact: j, k navigate, f follow link, x dismiss link,

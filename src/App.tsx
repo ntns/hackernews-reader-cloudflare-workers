@@ -212,41 +212,40 @@ const App = () => {
     state.currentView === "stories" ? state.stories : state.dismissedStories;
 
   return (
-    <div>
-      <p>
-        Use keyboard to interact: j, k navigate, f follow link, x dismiss link,
-        v toggle view
-      </p>
-      <h1>
-        {state.currentView === "stories" ? "Stories" : "Dismissed stories"}
-      </h1>
-      {state.showPopupBlockedAlert && (
-        <cite style={{ color: "red" }}>
-          It seems your browser is blocking popups. Please allow popups to open
-          links in a new window. <p></p>
-        </cite>
-      )}
-      {list.map((story: Story, i: number) => (
-        <div
-          key={story.id}
-          onClick={() => {
-            dispatch({ type: "navSelect", payload: i });
-          }}
-          style={{
-            cursor: "pointer",
-            color:
-              i === state.selectedIndex
-                ? state.currentView === "stories"
-                  ? "blue"
-                  : "darkred"
-                : "black"
-          }}
-        >
-          {story.title}
+    <div className="flex justify-center">
+      <div className=""> {/* Centered div */}
+        <div className="p-2 text-center text-blue-800 bg-green-200">
+          Use keyboard to interact: j, k navigate, f follow link, x dismiss link,
+          v toggle view
         </div>
-      ))}
-      <p>selected index: {state.selectedIndex}</p>
-    </div>
+        <h1 className={`my-5 text-center text-3xl font-bold ${state.currentView === "stories" ? "" : "text-red-800"}`}>
+          {state.currentView === "stories" ? "HackerNews Stories" : "Dismissed stories"}
+        </h1>
+        <div className="p-1 bg-yellow-300 text-center md:hidden">
+          Sorry, no mobile support! This is a keyboard driven UI.
+        </div>
+        {state.showPopupBlockedAlert && (
+          <div className="p-2 mb-4 bg-red-100 text-red-500">
+            <span>⚠</span>
+            <cite>
+              Your browser may be blocking popups. Allow popups to open
+              links in a new window.
+            </cite>
+          </div>
+        )}
+        {list.map((story: Story, i: number) => (
+          <div className={`my-1 px-5 py-1 text-xl ${i === state.selectedIndex ? "text-gray-900 bg-red-50 border-l-2 border-red-900 transition ease-out duration-200" : "text-gray-700 bg-gray-50 rounded"}`}
+            key={story.id}
+            onClick={() => {
+              dispatch({ type: "navSelect", payload: i });
+            }}
+          >
+            <span className={`block md:w-720 md:truncate ${i === state.selectedIndex ? "font-semibold" : ""}`}>{story.title}</span>
+            <span className={`block md:w-720 md:truncate text-sm mb-3 ${i === state.selectedIndex ? "text-gray-700" : "text-gray-400 hidden"}`}>{story.link.replace("https://", "")}</span>
+          </div>
+        ))}
+      </div>
+    </div >
   );
 };
 

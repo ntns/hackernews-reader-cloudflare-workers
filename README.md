@@ -1,5 +1,5 @@
 # hackernews-reader-cloudflare-workers
-A custom HackerNews Reader to match my Workflow. 
+A custom HackerNews Reader to match my workflow. 
 
 A Cloudflare Worker is used to collect stories from HN on a scheduled basis.
 
@@ -9,5 +9,6 @@ A Cloudflare Worker is used to collect stories from HN on a scheduled basis.
 - [X] Add VS Code devcontainer
 - [X] Use create-react-app + copy code from prototype
 - [X] Add styling with Tailwind CSS
-- [X] Host on Cloudflare Pages ([my-hackernews-reader.pages.dev/](https://my-hackernews-reader.pages.dev/))
+- [X] Host on Cloudflare Pages ([my-hackernews-reader.pages.dev](https://my-hackernews-reader.pages.dev/))
+- [X] Add Cloudflare Pages Function to provide stories to frontend
 - [ ] Add Cloudflare Worker to collect stories on schedule

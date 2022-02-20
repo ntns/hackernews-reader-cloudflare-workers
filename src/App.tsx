@@ -166,6 +166,7 @@ const App = () => {
     if (toggleViewPressed) {
       dispatch({ type: "toggleView" });
     }
+    document.querySelector(".selected-story")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [
     upPressed,
     downPressed,
@@ -234,7 +235,7 @@ const App = () => {
           </div>
         )}
         {list.map((story: Story, i: number) => (
-          <div className={`my-1 px-5 py-1 text-xl ${i === state.selectedIndex ? "text-gray-900 bg-red-50 border-l-2 border-red-900 transition ease-out duration-200" : "text-gray-700 bg-gray-50 rounded"}`}
+          <div className={`my-1 px-5 py-1 text-xl ${i === state.selectedIndex ? "text-gray-900 bg-red-50 border-l-2 border-red-900 transition ease-out duration-200 selected-story" : "text-gray-700 bg-gray-50 rounded"}`}
             key={story.id}
             onClick={() => {
               dispatch({ type: "navSelect", payload: i });

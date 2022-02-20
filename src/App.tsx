@@ -4,7 +4,7 @@ import { useKeyPress } from "./hooks/useKeyPress";
 type Story = {
   id: string;
   title: string;
-  link: string;
+  url: string;
 };
 
 type CurrentView = "stories" | "dismissedStories";
@@ -60,7 +60,7 @@ const reducer = (state: State, action: Action): State => {
       if (list.length === 0) {
         return state;
       }
-      const success = window.open(list[selectedIndex].link);
+      const success = window.open(list[selectedIndex].url);
       if (success == null) {
         console.warn("popup blocked");
         return {
@@ -119,9 +119,7 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-// TODO: change API, current limit of 10 items
-const STORIES_URL =
-  "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.ycombinator.com%2Frss";
+const STORIES_URL = "/stories";
 
 const App = () => {
   let savedStories = [];
@@ -198,10 +196,10 @@ const App = () => {
       const response = await fetch(STORIES_URL);
       const { items } = await response.json();
       const stories = items.map(
-        (story: { id: string; title: string; link: string }) => ({
-          id: story.link, // TODO: use real HN story ID
+        (story: { id: string; title: string; url: string }) => ({
+          id: story.id,
           title: story.title,
-          link: story.link
+          url: story.url
         })
       );
       dispatch({ type: "updateStories", stories });
@@ -242,7 +240,7 @@ const App = () => {
             }}
           >
             <span className={`block md:w-720 md:truncate ${i === state.selectedIndex ? "font-semibold" : ""}`}>{story.title}</span>
-            <span className={`block md:w-720 md:truncate text-sm mb-3 ${i === state.selectedIndex ? "text-gray-700" : "text-gray-400 hidden"}`}>{story.link.replace("https://", "")}</span>
+            <span className={`block md:w-720 md:truncate text-sm mb-3 ${i === state.selectedIndex ? "text-gray-700" : "text-gray-400 hidden"}`}>{story.url.replace("https://", "")}</span>
           </div>
         ))}
       </div>

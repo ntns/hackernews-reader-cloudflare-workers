@@ -5,6 +5,7 @@ type Story = {
   id: string;
   title: string;
   url: string;
+  external_url: string;
 };
 
 type CurrentView = "stories" | "dismissedStories";
@@ -21,8 +22,8 @@ type Action =
   | { type: "navUp" }
   | { type: "navDown" }
   | { type: "navSelect"; payload: number }
-  | { type: "followLink" }
-  | { type: "openComments" }
+  | { type: "followStory" }
+  | { type: "followComments" }
   | { type: "dismissStory" }
   | { type: "updateStories"; stories: Story[] }
   | { type: "toggleView" }
@@ -56,12 +57,11 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         selectedIndex: action.payload
       };
-    case "followLink":
+    case "followStory":
       if (list.length === 0) {
         return state;
       }
-      const success = window.open(list[selectedIndex].url);
-      if (success == null) {
+      if (window.open(list[selectedIndex].url) === null) {
         console.warn("popup blocked");
         return {
           ...state,
@@ -69,8 +69,17 @@ const reducer = (state: State, action: Action): State => {
         };
       }
       return state;
-    case "openComments":
-      // TODO
+    case "followComments":
+      if (list.length === 0) {
+        return state;
+      }
+      if (window.open(list[selectedIndex].external_url) === null) {
+        console.warn("popup blocked");
+        return {
+          ...state,
+          showPopupBlockedAlert: true
+        };
+      }
       return state;
     case "dismissStory": {
       if (state.currentView !== "stories" || list.length === 0) {
@@ -144,6 +153,7 @@ const App = () => {
   const upPressed = useKeyPress("k");
   const downPressed = useKeyPress("j");
   const followPressed = useKeyPress("f");
+  const commentsPressed = useKeyPress("c");
   const dismissPressed = useKeyPress("x");
   const toggleViewPressed = useKeyPress("v");
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -156,7 +166,10 @@ const App = () => {
       dispatch({ type: "navDown" });
     }
     if (followPressed) {
-      dispatch({ type: "followLink" });
+      dispatch({ type: "followStory" });
+    }
+    if (commentsPressed) {
+      dispatch({ type: "followComments" });
     }
     if (dismissPressed) {
       dispatch({ type: "dismissStory" });
@@ -169,6 +182,7 @@ const App = () => {
     upPressed,
     downPressed,
     followPressed,
+    commentsPressed,
     dismissPressed,
     toggleViewPressed
   ]);
@@ -196,10 +210,11 @@ const App = () => {
       const response = await fetch(STORIES_URL);
       const { items } = await response.json();
       const stories = items.map(
-        (story: { id: string; title: string; url: string }) => ({
+        (story: { id: string; title: string; url: string, external_url: string }) => ({
           id: story.id,
           title: story.title,
-          url: story.url
+          url: story.url,
+          external_url: story.external_url,
         })
       );
       dispatch({ type: "updateStories", stories });
@@ -214,7 +229,7 @@ const App = () => {
     <div className="px-2 flex justify-center">
       <div className=""> {/* Centered div */}
         <div className="md:w-720 p-2 text-center text-blue-800 bg-green-200">
-          Use keyboard to interact: j, k navigate, f follow link, x dismiss link,
+          Use keyboard to interact: j, k navigate, f follow link, c follow comments, x dismiss link,
           v toggle view
         </div>
         <h1 className={`my-5 text-center text-3xl font-bold ${state.currentView === "stories" ? "" : "text-red-800"}`}>

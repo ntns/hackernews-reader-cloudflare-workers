@@ -7,6 +7,9 @@ export const useKeyPress = (targetKey: string) => {
     const downHandler = ({ key }: { key: string }) => {
       if (key === targetKey) {
         setKeyPressed(true);
+        setTimeout(() => {
+          setKeyPressed(false);
+        }, 0);
       }
     };
     const upHandler = ({ key }: { key: string }) => {

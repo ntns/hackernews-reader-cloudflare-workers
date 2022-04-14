@@ -156,7 +156,22 @@ const App = () => {
   const commentsPressed = useKeyPress("c");
   const dismissPressed = useKeyPress("x");
   const toggleViewPressed = useKeyPress("v");
+  const refreshPressed = useKeyPress("r");
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  async function fetchStories() {
+    const response = await fetch(STORIES_URL);
+    const { items } = await response.json();
+    const stories = items.map(
+      (story: { id: string; title: string; url: string, external_url: string }) => ({
+        id: story.id,
+        title: story.title,
+        url: story.url,
+        external_url: story.external_url,
+      })
+    );
+    dispatch({ type: "updateStories", stories });
+  }
 
   useEffect(() => {
     if (upPressed) {
@@ -177,6 +192,9 @@ const App = () => {
     if (toggleViewPressed) {
       dispatch({ type: "toggleView" });
     }
+    if (refreshPressed) {
+      fetchStories();
+    }
     document.querySelector(".selected-story")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [
     upPressed,
@@ -184,7 +202,8 @@ const App = () => {
     followPressed,
     commentsPressed,
     dismissPressed,
-    toggleViewPressed
+    toggleViewPressed,
+    refreshPressed,
   ]);
 
   // Load stories from localstorage
@@ -204,21 +223,8 @@ const App = () => {
     );
   }, [state.stories, state.dismissedStories]);
 
-  // Fetch new stories
+  // Fetch more stories on page load
   useEffect(() => {
-    async function fetchStories() {
-      const response = await fetch(STORIES_URL);
-      const { items } = await response.json();
-      const stories = items.map(
-        (story: { id: string; title: string; url: string, external_url: string }) => ({
-          id: story.id,
-          title: story.title,
-          url: story.url,
-          external_url: story.external_url,
-        })
-      );
-      dispatch({ type: "updateStories", stories });
-    }
     fetchStories();
   }, []);
 

@@ -234,6 +234,7 @@ const App = () => {
         </div>
         <h1 className={`my-5 text-center text-3xl font-bold ${state.currentView === "stories" ? "" : "text-red-800"}`}>
           {state.currentView === "stories" ? "HackerNews Stories" : "Dismissed stories"}
+          <small className="ml-1 text-gray-700">({list.length})</small>
         </h1>
         <div className="p-1 bg-yellow-300 text-center md:hidden">
           Sorry, no mobile support! This is a keyboard driven UI.

@@ -157,6 +157,7 @@ const App = () => {
   const dismissPressed = useKeyPress("x");
   const toggleViewPressed = useKeyPress("v");
   const refreshPressed = useKeyPress("r");
+  const downloadPressed = useKeyPress("d");
   const [state, dispatch] = useReducer(reducer, initialState);
 
   async function fetchStories() {
@@ -171,6 +172,14 @@ const App = () => {
       })
     );
     dispatch({ type: "updateStories", stories });
+  }
+
+  async function downloadStories() {
+    const savedStories = JSON.stringify(JSON.parse(localStorage.getItem("stories") ?? "[]"), null, 4);
+    const a = document.createElement("a");
+    a.href = `data:text/json;charset=utf-8,${encodeURIComponent(savedStories)}`;
+    a.download = "hn-stories.json";
+    a.click();
   }
 
   useEffect(() => {
@@ -195,6 +204,9 @@ const App = () => {
     if (refreshPressed) {
       fetchStories();
     }
+    if (downloadPressed) {
+      downloadStories();
+    }
     document.querySelector(".selected-story")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [
     upPressed,
@@ -204,6 +216,7 @@ const App = () => {
     dismissPressed,
     toggleViewPressed,
     refreshPressed,
+    downloadPressed,
   ]);
 
   // Load stories from localstorage

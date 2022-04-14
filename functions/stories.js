@@ -2,7 +2,7 @@ export const onRequest = async ({ env }) => {
     return await getStories()
 }
 
-const API_URL = "https://hnrss.org/frontpage.jsonfeed?count=100"
+const API_URL = "https://hnrss.org/frontpage.jsonfeed?count=30"
 
 async function getStories() {
     const init = {

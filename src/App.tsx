@@ -129,6 +129,7 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const STORIES_URL = "/stories";
+const KEEP_MAX_DISMISSED_STORIES = 500;
 
 const App = () => {
   let savedStories = [];
@@ -232,7 +233,7 @@ const App = () => {
     localStorage.setItem("stories", JSON.stringify(state.stories));
     localStorage.setItem(
       "dismissedStories",
-      JSON.stringify(state.dismissedStories)
+      JSON.stringify(state.dismissedStories.slice(0, KEEP_MAX_DISMISSED_STORIES))
     );
   }, [state.stories, state.dismissedStories]);
 

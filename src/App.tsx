@@ -113,7 +113,8 @@ const reducer = (state: State, action: Action): State => {
         );
       return {
         ...state,
-        stories: [...state.stories, ...newStories]
+        selectedIndex: 0,
+        stories: [...newStories, ...state.stories]
       };
     }
     case "toggleView":
